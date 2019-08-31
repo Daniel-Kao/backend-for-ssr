@@ -12,4 +12,4 @@ app.use(express.json({ extended: false }));
 
 app.use('/api', require('./routes/api/Auth.js'));
 
-app.listen(4322, () => console.log('server started on port 4322'));
+app.listen(3000, () => console.log('server started on port 4322'));
