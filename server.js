@@ -1,7 +1,15 @@
-const express = require("express");
+const express = require('express');
+const connectDB = require('./config/db');
+const cors = require('cors');
 
 const app = express();
 
-app.use("/", (req, res) => res.send("hello world"));
+connectDB();
 
-app.listen(4322, () => console.log("server started on port 4322"));
+app.use(cors());
+
+app.use(express.json({ extended: false }));
+
+app.use('/api', require('./routes/api/Auth.js'));
+
+app.listen(4322, () => console.log('server started on port 4322'));

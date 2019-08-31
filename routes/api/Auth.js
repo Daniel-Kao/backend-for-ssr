@@ -1,0 +1,60 @@
+const express = require('express');
+const router = express.Router();
+
+const Auth = require('../../models/Auth');
+
+router.get('/', (req, res) => res.send('auth check'));
+
+router.post('/create', async (req, res) => {
+  try {
+    const auth = new Auth({
+      name: 'kao',
+      login: false,
+      translations: ['123123123', 'lalala', 'nice day']
+    });
+    await auth.save();
+    res.send('set it up!');
+  } catch (error) {}
+});
+
+router.post('/isLogin', async (req, res) => {
+  try {
+    const data = await Auth.findOne({ name: 'kao' });
+    console.log(data);
+    res.send({ login: data.login });
+  } catch (error) {}
+});
+router.post('/login', async (req, res) => {
+  try {
+    const filter = { name: 'kao' };
+    const update = { login: true };
+    await Auth.findOneAndUpdate(filter, update);
+    res.send({ code: 0, msg: 'logged in' });
+  } catch (error) {
+    res.status(500).send('server error');
+  }
+});
+router.post('/logout', async (req, res) => {
+  try {
+    const filter = { name: 'kao' };
+    const update = { login: false };
+    await Auth.findOneAndUpdate(filter, update);
+    res.send({ code: 0, msg: 'logged out' });
+  } catch (error) {
+    res.status(500).send('server error');
+  }
+});
+router.get('/translation', async (req, res) => {
+  try {
+    const data = await Auth.findOne({ name: 'kao' });
+    if (data.login) {
+      res.send({ code: 0, translations: data.translations });
+    } else {
+      res.send({ code: 1, msg: 'not signed in!' });
+    }
+  } catch (error) {
+    res.status(500).send('server error');
+  }
+});
+
+module.exports = router;
