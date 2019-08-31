@@ -2,26 +2,27 @@ const express = require('express');
 const router = express.Router();
 
 const Auth = require('../../models/Auth');
+const Todos = require('../../models/Todos');
 
 router.get('/', (req, res) => res.send('auth check'));
-
-router.post('/create', async (req, res) => {
-  try {
-    const auth = new Auth({
-      name: 'kao',
-      login: false,
-      translations: ['123123123', 'lalala', 'nice day']
-    });
-    await auth.save();
-    res.send('set it up!');
-  } catch (error) {}
-});
 
 router.post('/isLogin', async (req, res) => {
   try {
     const data = await Auth.findOne({ name: 'kao' });
     console.log(data);
     res.send({ login: data.login });
+  } catch (error) {}
+});
+router.post('/todos', async (req, res) => {
+  try {
+    // const data = await Auth.findOne({ name: 'kao' });
+    // console.log(data);
+    const todos = new Todos({
+      name: 'todos',
+      todos: ['nice day', 'is it not?', 'no']
+    });
+    todos.save();
+    res.send({ code: 0, msg: 'created' });
   } catch (error) {}
 });
 router.post('/login', async (req, res) => {
