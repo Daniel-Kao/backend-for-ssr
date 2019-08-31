@@ -5,18 +5,6 @@ const Auth = require('../../models/Auth');
 
 router.get('/', (req, res) => res.send('auth check'));
 
-router.post('/create', async (req, res) => {
-  try {
-    const auth = new Auth({
-      name: 'kao',
-      login: false,
-      translations: ['123123123', 'lalala', 'nice day']
-    });
-    await auth.save();
-    res.send('set it up!');
-  } catch (error) {}
-});
-
 router.post('/isLogin', async (req, res) => {
   try {
     const data = await Auth.findOne({ name: 'kao' });
