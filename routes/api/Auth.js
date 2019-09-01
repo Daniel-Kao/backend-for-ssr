@@ -13,16 +13,11 @@ router.post('/isLogin', async (req, res) => {
     res.send({ login: data.login });
   } catch (error) {}
 });
-router.post('/todos', async (req, res) => {
+router.get('/todos', async (req, res) => {
   try {
-    // const data = await Auth.findOne({ name: 'kao' });
-    // console.log(data);
-    const todos = new Todos({
-      name: 'todos',
-      todos: ['nice day', 'is it not?', 'no']
-    });
-    todos.save();
-    res.send({ code: 0, msg: 'created' });
+    const data = await Todos.findOne({ name: 'todos' });
+    
+    res.send({ code: 0, todos: data.todos });
   } catch (error) {}
 });
 router.post('/login', async (req, res) => {
